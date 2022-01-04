@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang ="en">
+    <head>
+        <meta charset=UTF-8>                        <!--Set the character language, generally UTF-8-->
+        <title>Vanilla JS30 - DRUM KIT</title>      
+        <link rel="stylesheet" href="style.css">    <!--Refers to the css file in the same folder with the styles-->
+    </head>
+    <body>
+        <div class = "keys">
+            <!--the data-keys for the letters on the keyboard
+            start from "65" and go upwards-->
+
+            <!--FOR LETTER A-->
+            <div data-key="65" class="key">
+                <kbd>A</kbd>
+                <span class="sound">clap</span>
+            </div>
+            <!--FOR LETTER S-->
+            <div data-key="83" class="key">
+                <kbd>S</kbd>
+                <span class="sound">hihat</span>
+            </div>
+            <!--FOR LETTER D-->
+            <div data-key="68" class="key">
+                <kbd>D</kbd>
+                <span class="sound" class="key">kick</span>
+            </div>
+            <!--FOR LETTER F-->
+            <div data-key="70" class="key">
+                <kbd>F</kbd>
+                <span class="sound" class="key">openhat</span>
+            </div>
+            <!--FOR LETTER G-->
+            <div data-key="71" class="key">
+                <kbd>G</kbd>
+                <span class="sound" class="key">boom</span>
+            </div>
+            <!--FOR LETTER H-->
+            <div data-key="72" class="key">
+                <kbd>H</kbd>
+                <span class="sound" class="key">ride</span>
+            </div>
+            <!--FOR LETTER J-->
+            <div data-key="74" class="key">
+                <kbd>J</kbd>
+                <span class="sound" class="key">snare</span>
+            </div>
+            <!--FOR LETTER K-->
+            <div data-key="75" class="key">
+                <kbd>K</kbd>
+                <span class="sound" class="key">tom</span>
+            </div>
+            <!--FOR LETTER L-->
+            <div data-key="76" class="key">
+                <kbd>L</kbd>
+                <span class="sound" class="key">tink</span>
+            </div>
+        </div>
+
+        <audio data-key="65" src="sounds/clap_A.wav"></audio>
+        <audio data-key="83" src="sounds/hihat_S.wav"></audio>
+        <audio data-key="68" src="sounds/kick_D.wav"></audio>
+        <audio data-key="70" src="sounds/openhat_F.wav"></audio>
+        <audio data-key="71" src="sounds/boom_G.wav"></audio>
+        <audio data-key="72" src="sounds/ride_H.wav"></audio>
+        <audio data-key="74" src="sounds/snare_J.wav"></audio>
+        <audio data-key="75" src="sounds/tom_K.wav"></audio>
+        <audio data-key="76" src="sounds/tink_L.wav"></audio>
+
+        <script>
+
+            //PLAYS SOUND
+            function playSound(event){
+                //Use "querySelector" if only finding ONE keyEvent
+                //Use "querySelectorAll" if looking for ALL keyEvents
+
+                //The square brackets [] are an 'attribute selector' - works for both JS and CSS 
+                //Change VAR to TEXT, use ES6 language and put:
+                //1. `` (backticks character)
+                //2. "${}" (dollar sign plus curly brackets) - will need quote marks
+                const audio = document.querySelector(`audio[data-key="${event.keyCode}"]`);
+                //can bring in class="key" (remember, place a full stop before the class if you are referring to them e.g. '.key')
+                const key = document.querySelector(`.key[data-key="${event.keyCode}"]`)
+                if(!audio) return;              //If no audio, then stop function running altogether
+                audio.currentTime = 0;          //rewinds to the start of the sound (i.e. sound will play when key is hit)
+                audio.play();
+                key.classList.add('playing');
+                console.log(key);               //RETURNS '<div class="key" data-key="68">'
+
+                //console.log(audio);   RETURNS When press "A", result displays: <audio data-key="65" src="sounds/clap_A.wav"></audio>
+            }
+
+            //REMOVES THE TRANSITION
+            function removeTransition(event){
+                if(event.propertyName !== 'transform') return;  //Skip if it doesn't return 'transform' event from '.playing' class
+                //console.log(event.propertyName);              //RETURNS 'transform' (being when the border changes)
+                this.classList.remove('playing');               //RETURNS reverts the playing class back to original format
+                //When the transition in CSS is longer time, the propertyName will appear at the end of the longer time
+
+                //When 'this' is called - 'this' is what got called: 'addEventListener' (see line 105) and 'key' got called against it
+                //console.log(event);           RETURNS 6 events that ocurred including the border transition
+        }
+
+        const keys = document.querySelectorAll('.key');
+        window.addEventListener('keydown', playSound);
+        keys.forEach(key => key.addEventListener('transitionend', removeTransition));  //For each key, the transition will be removed 
+
+        //Do not use a single key.eventListener to remove the .playing class, as it is a NodeList NOT an array
+        //If you have an array of elements, you must explicitly loop over every single element which is not efficient
+        
+        </script>
+    </body>
+</html>
