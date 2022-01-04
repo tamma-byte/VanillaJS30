@@ -1,0 +1,117 @@
+<!--CREATE A CLOCK!!-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>JSS Clock</title>
+    </head>
+    <body>
+
+        <!--SET UP CLASSES-->
+        <div class="clock">
+            <div class="clock-face">
+                <div class="hand hour-hand"></div>
+                <div class="hand minute-hand"></div>
+                <div class="hand second-hand"></div>
+            </div>
+        </div>
+
+        <style>
+            html{
+                background: #018ded url(https://unsplash.it/1500/1000?image=881&blur=5);
+                    /*URL from Video not working - Tried others
+                    https://unsplash.it/1500/1000?image=881&blur=100
+                    https://picsum.photos/1500/1000?image=881&blur=05);*/
+                background-size: cover;
+                font-family: 'helvetica neue';
+                text-align: center;
+                font-size: 10px;
+            }
+
+            body{
+                font-size: 2rem;
+                display:flex;
+                flex:1;
+                min-height: 100vh;
+                align-items: center;
+            }
+
+            .clock{
+                width: 30rem;
+                height: 30rem;
+                border: 20px solid white;
+                border-radius: 50%;
+                margin: 50px auto;
+                position:relative;              /*sets the hands to be inside the clock circle by relative length*/
+                padding: 2rem;                  /*sets the distance between the and and the white clock face*/
+                box-shadow: 
+                    0 0 0 4px rgba(0, 0, 0, 0.1),
+                    inset 0 0 0 3px #efefef,
+                    inset 0 0 10px black,
+                    0 0 10px rgba(0,0,0,0.2);
+            }
+
+            .clock-face{
+                position: relative;
+                width: 100%;
+                height: 100%;
+                transform: translateY(-3px);    /*plays with the position on the Y-axis (vertical) - account for the height of the clock hands*/
+            }
+
+            .hand{
+                width: 50%;                     /*Width relative to clockface*/
+                height: 6px;                    /*Thickness of hand*/
+                background: black;
+                position: absolute;
+                top:50%;                        /*Position of hands from the top of the page*/
+                transform-origin: 100%;
+                transform: rotate(90deg);       /*Set the hands to be at 12am*/
+                transition: all 0.05s;          /*sets the time it takes for the hand to tick to the next second*/
+                transition-timing-function: cubic-bezier(0.1,2.69,.58,1); /*makes ticking effect (transition must be set first)*/
+            }
+
+        </style>
+
+        <script>
+            //SECONDS HAND
+            //1. Grab the second-hand class from div
+            const secondHand = document.querySelector('.second-hand');
+            const minutesHand = document.querySelector('.minute-hand');
+            const hoursHand = document.querySelector('.hour-hand');
+            
+            //2. Calculate the seconds for transforming 'seconds' into degrees 
+            function setTime(){
+                const now = new Date();
+                
+                const seconds = now.getSeconds();
+                const secondsDegrees = ((seconds/60)*360)+90;
+                                
+                const minutes = now.getMinutes();
+                const minutesDegrees = ((minutes/60)*360)+90;
+
+                const hours = now.getHours();
+                const hoursDegrees = ((hours/12)*360)+90+((minutes/60)*30);
+                
+                //3.  Set the style of the HANDS
+                
+                //NOTE: When the SECONDS hand reaches close to zero, the hand goes backwards (not very nicely)
+                //Code to avoid the spaz attack
+                if(seconds==0) {
+                    secondHand.style.transition = `none`;                   //turn off the transition
+                    secondHand.style.transform = `rotate(90deg)`;           //Hard set the second hand to reach 90degrees
+                }else{
+                    secondHand.style.transform = `rotate(${secondsDegrees}deg)`; //Continue transition
+                }
+                minutesHand.style.transform = `rotate(${minutesDegrees}deg)`;
+                hoursHand.style.transform = `rotate(${hoursDegrees}deg)`;
+                console.log('The time is: ' +hours+ ':'+minutes+':'+(seconds<10? '0'+seconds:seconds)); //1-9 seconds show one digit only
+            }
+
+            //3. Set the interval to seconds
+            //NOTE: setInterval(function, milliseconds)
+            setInterval(setTime, 1000);        /*the '1000' means 1 second*/
+            setTime();
+
+        </script>
+    </body>
+</html>
