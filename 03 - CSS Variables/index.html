@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" style="--base: #ffc600">
+    <head>
+        <meta charset="UTF-8">
+        <title>03 PLAYING WITH JS AND CSS VARIABLES</title>
+    </head>
+    <body>
+        <h2 style="--base: #bada55">Update CSS Variables with <span class='hl'>JS</span></h2> <!--'hl' stands for highlight-->
+        <!--Even though the base variable has been set in the html, the lower one will 'win out'-->
+
+        <div class="controls">
+            <label for="spacing">Spacing:</label>
+            <input type="range" name="spacing" min="10" max="200" value="10" data-sizing="px"> 
+            <!--can test out by adding this to the above input: data-name="Michelle" data-weird="hello", and they should display in the dataset console log-->
+
+            <label for = "blur">Blur:</label>
+            <input type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+
+            <label for="base">Base Colour</label>                   <!--Australian spelling-->
+            <input type="color" name="base" value="#ffc600">
+        </div>
+
+        <img src="http://unsplash.it/800/500?image=900">
+
+        <style>
+            :root{
+                --base: #ffc600;        /*the '--' is equivalent to the $ in JS*/
+                --spacing: 10px;
+                --blur: 10px;
+            }
+
+            img{
+                padding: var(--spacing);   /*creates padding around the image*/
+                background: var(--base);
+                filter: blur(var(--blur));
+            }
+
+            .hl{
+                color: var(--base);
+            }
+
+            body{
+                text-align: center;
+            }
+
+            body{
+                background:#193549;
+                color: white;
+                font-family: 'helvetica neue', sans-serif;
+                font-weight: 100;
+                font-size: 50px;
+            }
+
+            .controls {
+                margin-bottom: 50px;
+            }
+
+        </style>
+        <script>
+            //Updating CSS variables
+            const inputs = document.querySelectorAll('.controls input')     //NodeList v Array - They are different (use console in browser to check)
+
+            //Check if forEach() function works in NodeList, otherwise will need to convert it into an array (here, checked that forEach() works)
+            function handleUpdate(){
+                
+                const suffix = this.dataset.sizing || '';   //Need to account for null as Color does not have a sizing attribute
+                console.log(this.name);         //RETURNS the name as assigned in the :root css object
+                document.documentElement.style.setProperty(`--${this.name}`, this.value+suffix);    //TIME: 11:44
+                //console.log(this.dataset);    RETURNS the objects of that element (being the data-'whatever attribute'), here being the 'sizing'
+                //console.log(this.value);      RETURNS the value of the input on the Spacing, Blur and Color bars
+            }
+
+            inputs.forEach(move => move.addEventListener('change', handleUpdate));
+            inputs.forEach(move => move.addEventListener('mousemove', handleUpdate));
+        </script>
+    </body>
+</html>
