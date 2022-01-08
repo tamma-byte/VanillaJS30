@@ -3,4 +3,4 @@ Vanilla JS 30 Challenge
 
 This is my coding for the Challenge with my own detailed personal notes and comments.
 
-Most of the comments made seem basic, but are there for my own personal development.
+The running and debugging of these codes were done on the Mozilla Firefox browser (Version 95.0.2 (64-bit)).
