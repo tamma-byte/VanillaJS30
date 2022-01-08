@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>JS Array Cardio</title>
+    </head>
+    <body>
+        <p><em>Note: Have a look at the JS Console</em></p>
+        <script>
+            //PURPOSE: To build function skills with array data
+
+            //Creating new data so easier to differentiate between course videos and this code
+            const entertainers = [
+                {first: 'Whitney', last: 'Houston', year: 1963, passed: 2012},
+                {first: 'Eddie', last: 'van Halen', year: 1955, passed: 2020},
+                {first: 'Betty', last: 'White', year: 1922, passed: 2021},
+                {first: 'David', last: 'Bowie', year: 1947, passed: 2016},
+                {first: 'Michael', last: 'Jackson', year: 1958, passed: 2009},
+                {first: 'Elvis', last: 'Presley', year: 1935, passed: 1977}
+            ];
+
+            const actors = [
+                'de Niro, Robert', 'Nicholson, Jack', 'Brando, Marlon', 'Washington, Denzel', 'Hepburn, Katharine', 'Bogart, Humphrey', 'Streep, Meryl', 'Day-Lewis, Daniel', 'Taylor, Elizabeth', 'Davis, Bette', 'Blanchett, Cate', 'Hepburn, Audrey', 'Collette, Toni', 'Olivier, Laurence', 'Keaton, Diane', 'Freeman, Morgan', 'Mirren, Helen', 'Andrews, Julie', 'Pacino, Alfredo', 'Ford, Harrison', 'Astaire, Fred', 'Kelly, Gene', 'Close, Glenn'
+            ];
+
+            // Array.prototype.filter()
+            // 1. Filter the list of entertainers for those who were born before 1950
+            function bornBefore1950(item){
+                if(item.year < 1950){
+                    console.log(item.first + ' '+ item.last+' was born in '+ item.year);
+                }
+            }
+            let entertainer = entertainers.filter(bornBefore1950); 
+                //RETURNS: 
+                //Betty White was born in 1922
+                //David Bowie was born in 1947
+                //Elvis Presley was born in 1935
+
+            // Array.prototype.map()
+            // 2. Give us an array of the entertainers first and last names
+            function firstLastNames(item){
+                console.log(`Full Name: ${item.first} ${item.last}`)
+            }
+            let people = entertainers.map(firstLastNames);
+                //RETURNS: 
+                //Full Name: Whitney Houston
+                //Full Name: Eddie van Halen
+                //Full Name: Betty White
+                //Full Name: David Bowie
+                //Full Name: Michael Jackson
+                //Full Name: Elvis Presley
+
+            // Array.prototype.sort()
+            // 3. Sort the entertainers by birthdate, oldest to youngest
+            //(METHOD 1: Call the entertainers before the function)
+            entertainers.sort (function (firstYear, secondYear){
+                return firstYear.year - secondYear.year;
+            })
+            console.log(entertainers);
+            //(METHOD 2: set up a separate function before calling the array)
+            function sortedEntertainers(firstYear, secondYear){
+                return firstYear.year - secondYear.year;
+            }
+            console.log(entertainers.sort(sortedEntertainers));
+                //BOTH RETURNS:
+                //0: Object { first: "Betty", last: "White", year: 1922, … }
+                //1: Object { first: "Elvis", last: "Presley", year: 1935, … }
+                //2: Object { first: "David", last: "Bowie", year: 1947, … }
+                //3: Object { first: "Eddie", last: "van Halen", year: 1955, … }
+                //4: Object { first: "Michael", last: "Jackson", year: 1958, … }
+                //5: Object { first: "Whitney", last: "Houston", year: 1963, … }
+            
+            // Array.prototype.reduce()
+            // 4. How many years did all the entertainers live?
+            function yearsLived(initial, person, index, array){
+                const age = person.passed - person.year;
+                console.log(`${person.first} ${person.last} lived until ${age} years old`);
+                return age;
+            };
+            entertainers.reduce(yearsLived, 0);
+            //Need to call the initialValue of the array, being position [0]
+                //RETURNS
+                //Betty White lived until 99 years old
+                //Elvis Presley lived until 42 years old
+                //David Bowie lived until 69 years old
+                //Eddie van Halen lived until 65 years old
+                //Michael Jackson lived until 51 years old
+                //Whitney Houston lived until 49 years old
+            
+            // 5. Sort the entertainers by years lived
+
+            entertainers.sort(function(a, b){
+                var firstPersonAge = a.passed - a.year;
+                var secondPersonAge = b.passed - b.year;
+                return firstPersonAge - secondPersonAge;
+            });
+            console.log(entertainers)
+                //RETURNS
+                //0: Object { first: "Elvis", last: "Presley", year: 1935,... }
+                //1: Object { first: "Whitney", last: "Houston", year: 1963, ... }
+                //2: Object { first: "Michael", last: "Jackson", year: 1958, ... }
+                //3: Object { first: "Eddie", last: "van Halen", year: 1955, ... }
+                //4: Object { first: "David", last: "Bowie", year: 1947, ... }
+                //5: Object { first: "Betty", last: "White", year: 1922, ... }
+
+            // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
+            // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+
+            //var wikipedia = new URL('https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris');
+            /*const list = document.querySelector('.mw-category');
+            const links = Array.from(list.querySelectorAll('a'));
+            const de = links
+                    .map(link =>link.textContent)
+                    .filter(streetName => streetName.includes('de'));*/
+
+            // 7. sort Exercise
+            // Sort the people alphabetically by last name
+            function sortByLastName(a, b) {
+                const surnameFirst = a.last.toUpperCase();  // ignore upper and lowercase
+                const surnameNext = b.last.toUpperCase();   // ignore upper and lowercase
+                if (surnameFirst < surnameNext) {
+                    return -1;                              // Sort 'surnameFirst' before 'surnameNext'
+                }
+                else if (surnameFirst > surnameNext) {
+                    return 1;                               // Sort 'surnameNext' before 'surnameFirst'
+                }
+                // names must be equal
+                else{
+                    return 0;                               // None of the last names are the same
+                    }
+                };
+                console.log(entertainers.sort(sortByLastName));
+                    //RETURNS
+                    //0: Object { first: "David", last: "Bowie", year: 1947, … }
+                    //1: Object { first: "Whitney", last: "Houston", year: 1963, … }
+                    //2: Object { first: "Michael", last: "Jackson", year: 1958, … }
+                    //3: Object { first: "Elvis", last: "Presley", year: 1935, … }
+                    //4: Object { first: "Eddie", last: "van Halen", year: 1955, … }
+                    //5: Object { first: "Betty", last: "White", year: 1922, … }
+
+            // 8. Reduce Exercise
+            // Sum up the instances of each of these
+            const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+
+            function instances(allData, data){
+                if(data in allData){
+                    allData[data]++
+                } else {
+                    allData[data] = 1
+                }
+                return allData
+            }
+            console.log(data.reduce(instances, {}));
+                //RETURNS
+                //Object { car: 5, truck: 3, bike: 2, walk: 2, van: 2 }
+
+        </script>
+    </body>
+</html>
