@@ -59,13 +59,8 @@
             // Array.prototype.sort()
             // 3. Sort the entertainers by birthdate, oldest to youngest
             //(METHOD 1: Call the entertainers before the function)
-            // Works on Mozilla Firefox but not Microsoft Edge
+            // Note: when q5 answer is entered, it will change the order as it is the later function
             const random = entertainers.sort(function(firstYear, secondYear){
-                /*if(firstYear.year < secondYear.year){         //VanillaJS working out - but doesn't work on Firefox
-                    return 1
-                } else {
-                    return -1
-                }*/
                 return firstYear.year - secondYear.year;
             })
             console.table(random)
@@ -76,7 +71,6 @@
             }
             console.table(entertainers.sort(sortedEntertainers));
             //(METHOD 3: As per Vanilla JS instructions)
-            // Works on Mozilla Firefox but not Microsoft Edge
             const vanillaSort = entertainers.sort((a, b) => a.year >b.year ? 1:-1);
             console.table(vanillaSort);
                 //RETURNS:
